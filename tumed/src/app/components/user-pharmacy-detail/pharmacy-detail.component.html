@@ -1,0 +1,55 @@
+<div class="page" *ngIf="pharmacy; else noEncontrado">
+  <a routerLink="/app/farmacias" class="back">← Volver a farmacias</a>
+
+  <div class="head">
+    <div class="thumb">{{ pharmacy.nombre.charAt(0) }}</div>
+    <div>
+      <p class="eyebrow">{{ pharmacy.ciudad }}</p>
+      <h1>{{ pharmacy.nombre }}</h1>
+    </div>
+  </div>
+
+  <p class="desc">{{ pharmacy.descripcion }}</p>
+
+  <div class="info-grid">
+    <div class="tm-panel">
+      <h3>Dirección</h3>
+      <p>{{ pharmacy.direccion }}</p>
+    </div>
+    <div class="tm-panel">
+      <h3>Horario</h3>
+      <p>{{ pharmacy.horario }}</p>
+    </div>
+    <div class="tm-panel">
+      <h3>Contacto</h3>
+      <p>{{ pharmacy.telefono }}<br>{{ pharmacy.correo }}</p>
+    </div>
+  </div>
+
+  <h2>Medicamentos disponibles</h2>
+  <div class="avail-list">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
+      <span>Medicamento</span><span>Precio</span><span>Estado</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 1fr 1fr 1fr;" *ngFor="let item of medicamentos">
+      <span class="ph-name">{{ item.med.nombre }}</span>
+      <span>${{ item.disp!.precio | number }}</span>
+      <span class="tm-badge" [ngClass]="{
+        'tm-badge--available': item.disp!.disponibilidad === 'disponible',
+        'tm-badge--low': item.disp!.disponibilidad === 'bajo-stock',
+        'tm-badge--out': item.disp!.disponibilidad === 'agotado'
+      }">
+        {{ item.disp!.disponibilidad === 'disponible' ? 'Disponible' : item.disp!.disponibilidad === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+      </span>
+      <a [routerLink]="['/app/medicamento', item.med.id]" class="tm-btn tm-btn--ghost tm-btn--sm">Ver medicamento</a>
+    </div>
+    <p class="empty-state" *ngIf="medicamentos.length === 0">Esta farmacia aún no ha reportado medicamentos.</p>
+  </div>
+</div>
+
+<ng-template #noEncontrado>
+  <div class="page">
+    <p>No encontramos esta farmacia.</p>
+    <a routerLink="/app/farmacias" class="tm-btn tm-btn--ghost">Volver a farmacias</a>
+  </div>
+</ng-template>

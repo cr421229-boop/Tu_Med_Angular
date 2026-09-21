@@ -1,0 +1,14 @@
+
+.option-card {
+  display: block;
+  border: 1px solid var(--tm-line);
+  border-radius: var(--tm-radius-md);
+  padding: 20px;
+  text-decoration: none;
+  margin-bottom: 14px;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.option-card:hover { border-color: var(--tm-green); background: var(--tm-green-tint); text-decoration: none; }
+.option-card h3 { color: var(--tm-teal); margin-bottom: 4px; }
+.option-card p { margin: 0; font-size: 0.85rem; }
+.already { margin-top: 20px; font-size: 0.87rem; text-align: center; }

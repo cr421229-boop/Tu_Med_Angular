@@ -1,0 +1,87 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Usuarios</h1>
+      <p>Crea, edita y elimina cuentas de usuario y administrador.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="openCreate()">Crear usuario</button>
+  </div>
+
+  <div class="toolbar">
+    <input class="tm-input" type="text" placeholder="Buscar por nombre o correo" [(ngModel)]="query" name="query" />
+    <select class="tm-select" [(ngModel)]="roleFilter" name="roleFilter">
+      <option value="todos">Todos los roles</option>
+      <option value="usuario">Usuario</option>
+      <option value="administrador">Administrador</option>
+      <option value="farmacia">Farmacia</option>
+    </select>
+  </div>
+
+  <div class="list-panel">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 2fr 1fr 1fr;">
+      <span>Nombre</span><span>Correo</span><span>Rol</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 2fr 1fr 1fr;" *ngFor="let u of users">
+      <span>{{ u.nombre }} {{ u.apellido }}</span>
+      <span>{{ u.correo }}</span>
+      <span class="tm-badge tm-badge--available">{{ u.role }}</span>
+      <span class="row-actions">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="openEdit(u)">Editar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(u)">Eliminar</button>
+      </span>
+    </div>
+    <p class="empty-state" *ngIf="users.length === 0">No hay usuarios que coincidan con la búsqueda.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ draft.id ? 'Editar usuario' : 'Crear usuario' }}</h2>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Nombre</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.nombre" name="nombre" />
+      </div>
+      <div class="tm-field">
+        <label>Apellido</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.apellido" name="apellido" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Correo electrónico</label>
+      <input class="tm-input" type="email" [(ngModel)]="draft.correo" name="correo" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Teléfono</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.telefono" name="telefono" />
+      </div>
+      <div class="tm-field">
+        <label>Rol</label>
+        <select class="tm-select" [(ngModel)]="draft.role" name="role" [disabled]="draft.role === 'farmacia'">
+          <option value="usuario">Usuario</option>
+          <option value="administrador">Administrador</option>
+          <option value="farmacia" *ngIf="draft.role === 'farmacia'">Farmacia</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>{{ draft.id ? 'Nueva contraseña (opcional)' : 'Contraseña' }}</label>
+      <input class="tm-input" type="password" [(ngModel)]="draft.password" name="password" placeholder="Mínimo 6 caracteres" />
+    </div>
+
+    <p class="tm-error" *ngIf="error">{{ error }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="close()">Cancelar</button>
+      <button type="button" class="tm-btn tm-btn--primary" (click)="save()">{{ draft.id ? 'Guardar cambios' : 'Crear usuario' }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

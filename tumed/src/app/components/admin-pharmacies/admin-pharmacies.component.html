@@ -1,0 +1,92 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Farmacias</h1>
+      <p>Gestiona las farmacias aliadas registradas en TU MED.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="openCreate()">Crear farmacia</button>
+  </div>
+
+  <div class="toolbar">
+    <input class="tm-input" type="text" placeholder="Buscar por nombre o ciudad" [(ngModel)]="query" name="query" />
+  </div>
+
+  <div class="list-panel">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 1.4fr 1fr 1fr;">
+      <span>Farmacia</span><span>Ciudad</span><span>Estado</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 1.4fr 1fr 1fr;" *ngFor="let p of pharmacies">
+      <span>{{ p.nombre }}</span>
+      <span>{{ p.ciudad }}</span>
+      <span class="tm-badge" [ngClass]="p.activa ? 'tm-badge--available' : 'tm-badge--out'">{{ p.activa ? 'Activa' : 'Inactiva' }}</span>
+      <span class="row-actions">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="openEdit(p)">Editar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(p)">Eliminar</button>
+      </span>
+    </div>
+    <p class="empty-state" *ngIf="pharmacies.length === 0">No hay farmacias que coincidan con la búsqueda.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ draft.id ? 'Editar farmacia' : 'Crear farmacia' }}</h2>
+
+    <div class="tm-field">
+      <label>Nombre de la farmacia</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.nombre" name="nombre" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>NIT</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.nit" name="nit" />
+      </div>
+      <div class="tm-field">
+        <label>Teléfono</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.telefono" name="telefono" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Correo electrónico</label>
+      <input class="tm-input" type="email" [(ngModel)]="draft.correo" name="correo" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Dirección</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.direccion" name="direccion" />
+      </div>
+      <div class="tm-field">
+        <label>Ciudad</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.ciudad" name="ciudad" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Horario</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.horario" name="horario" placeholder="Lun a Sáb 8:00 a.m. – 7:00 p.m." />
+    </div>
+
+    <div class="tm-field">
+      <label>Descripción</label>
+      <textarea class="tm-textarea" [(ngModel)]="draft.descripcion" name="descripcion" rows="3"></textarea>
+    </div>
+
+    <label class="tm-checkbox-row">
+      <input type="checkbox" [(ngModel)]="draft.activa" name="activa" />
+      <span>Farmacia activa en la plataforma.</span>
+    </label>
+
+    <p class="tm-error" *ngIf="error" style="margin-top: 12px;">{{ error }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="close()">Cancelar</button>
+      <button type="button" class="tm-btn tm-btn--primary" (click)="save()">{{ draft.id ? 'Guardar cambios' : 'Crear farmacia' }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

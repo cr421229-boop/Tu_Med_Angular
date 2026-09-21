@@ -1,0 +1,45 @@
+.nav {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--tm-teal);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 18px;
+  position: sticky;
+  top: 0;
+}
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 34px; padding: 0 6px; }
+.mark { width: 12px; height: 12px; border-radius: 3px; background: var(--tm-green); }
+.name { font-family: var(--tm-serif); font-weight: 600; font-size: 1.15rem; color: #fff; }
+nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+nav a {
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+nav a.active { background: var(--tm-green); color: #fff; }
+.logout {
+  margin-top: 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.logout:hover { background: rgba(255,255,255,0.08); }
+@media (max-width: 860px) {
+  .nav { width: 100%; min-height: auto; position: relative; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 14px 16px; }
+  .brand { margin-bottom: 0; margin-right: auto; }
+  nav { flex-direction: row; flex-wrap: wrap; flex: none; width: 100%; order: 3; margin-top: 10px; gap: 4px; }
+  nav a { padding: 7px 10px; font-size: 0.82rem; }
+  .logout { margin-top: 0; }
+}

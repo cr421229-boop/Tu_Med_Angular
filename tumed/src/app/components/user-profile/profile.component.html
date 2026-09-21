@@ -1,0 +1,35 @@
+<div class="page narrow">
+  <p class="eyebrow">Tu cuenta</p>
+  <h1>Mi perfil</h1>
+  <p>Actualiza tus datos personales y de contacto.</p>
+
+  <div class="tm-panel">
+    <form (ngSubmit)="guardar()" novalidate>
+      <div class="row">
+        <div class="tm-field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" class="tm-input" type="text" name="nombre" [(ngModel)]="nombre" />
+        </div>
+        <div class="tm-field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" class="tm-input" type="text" name="apellido" [(ngModel)]="apellido" />
+        </div>
+      </div>
+
+      <div class="tm-field">
+        <label for="correo">Correo electrónico</label>
+        <input id="correo" class="tm-input" type="email" [value]="auth.currentUser()?.correo" disabled />
+        <p class="tm-hint">El correo no se puede modificar desde aquí.</p>
+      </div>
+
+      <div class="tm-field">
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" class="tm-input" type="text" name="telefono" [(ngModel)]="telefono" />
+      </div>
+
+      <p class="confirm" *ngIf="guardado">Tus datos se actualizaron correctamente.</p>
+
+      <button type="submit" class="tm-btn tm-btn--primary">Guardar cambios</button>
+    </form>
+  </div>
+</div>

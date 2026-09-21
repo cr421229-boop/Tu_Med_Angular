@@ -1,0 +1,84 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Ofertas</h1>
+      <p>Crea y gestiona las promociones visibles para los usuarios.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="openCreate()">Crear oferta</button>
+  </div>
+
+  <div class="list-panel">
+    <div class="tm-list-head" style="grid-template-columns: 1.6fr 1.2fr 1.2fr 0.8fr 1fr 1fr;">
+      <span>Oferta</span><span>Medicamento</span><span>Farmacia</span><span>Descuento</span><span>Vigencia</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 1.6fr 1.2fr 1.2fr 0.8fr 1fr 1fr;" *ngFor="let o of offers">
+      <span>{{ o.titulo }} <span class="tm-badge" [ngClass]="o.activa ? 'tm-badge--available' : 'tm-badge--out'" style="margin-left:6px;">{{ o.activa ? 'Activa' : 'Inactiva' }}</span></span>
+      <span>{{ medNombre(o.medicamentoId) }}</span>
+      <span>{{ phNombre(o.farmaciaId) }}</span>
+      <span>-{{ o.descuento }}%</span>
+      <span>{{ o.vigenciaHasta }}</span>
+      <span class="row-actions">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="openEdit(o)">Editar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(o)">Eliminar</button>
+      </span>
+    </div>
+    <p class="empty-state" *ngIf="offers.length === 0">Aún no has creado ofertas.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ draft.id ? 'Editar oferta' : 'Crear oferta' }}</h2>
+
+    <div class="tm-field">
+      <label>Título</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.titulo" name="titulo" placeholder="Ej. 20% off en Acetaminofén" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Medicamento</label>
+        <select class="tm-select" [(ngModel)]="draft.medicamentoId" name="medicamentoId">
+          <option *ngFor="let m of medications" [value]="m.id">{{ m.nombre }}</option>
+        </select>
+      </div>
+      <div class="tm-field">
+        <label>Farmacia</label>
+        <select class="tm-select" [(ngModel)]="draft.farmaciaId" name="farmaciaId">
+          <option *ngFor="let p of pharmacies" [value]="p.id">{{ p.nombre }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Precio original</label>
+        <input class="tm-input" type="number" min="0" [(ngModel)]="draft.precioOriginal" name="precioOriginal" />
+      </div>
+      <div class="tm-field">
+        <label>Descuento (%)</label>
+        <input class="tm-input" type="number" min="0" max="90" [(ngModel)]="draft.descuento" name="descuento" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Vigente hasta</label>
+      <input class="tm-input" type="date" [(ngModel)]="draft.vigenciaHasta" name="vigenciaHasta" />
+    </div>
+
+    <label class="tm-checkbox-row">
+      <input type="checkbox" [(ngModel)]="draft.activa" name="activa" />
+      <span>Oferta activa y visible para los usuarios.</span>
+    </label>
+
+    <p class="tm-error" *ngIf="error" style="margin-top: 12px;">{{ error }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="close()">Cancelar</button>
+      <button type="button" class="tm-btn tm-btn--primary" (click)="save()">{{ draft.id ? 'Guardar cambios' : 'Crear oferta' }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

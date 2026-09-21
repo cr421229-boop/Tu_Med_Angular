@@ -1,0 +1,82 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Administración</p>
+      <h1>Medicamentos</h1>
+      <p>Gestiona el catálogo general de medicamentos de la plataforma.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="openCreate()">Crear medicamento</button>
+  </div>
+
+  <div class="toolbar">
+    <input class="tm-input" type="text" placeholder="Buscar por nombre o categoría" [(ngModel)]="query" name="query" />
+  </div>
+
+  <div class="list-panel">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 1.4fr 1fr 1fr;">
+      <span>Medicamento</span><span>Categoría</span><span>Estado</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 1.4fr 1fr 1fr;" *ngFor="let m of medications">
+      <span>{{ m.nombre }} <span class="hint" *ngIf="m.requiereReceta">· Con receta</span></span>
+      <span>{{ m.categoria }}</span>
+      <span class="tm-badge" [ngClass]="{
+        'tm-badge--available': estado(m) === 'disponible',
+        'tm-badge--low': estado(m) === 'bajo-stock',
+        'tm-badge--out': estado(m) === 'agotado'
+      }">
+        {{ estado(m) === 'disponible' ? 'Disponible' : estado(m) === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+      </span>
+      <span class="row-actions">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="openEdit(m)">Editar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(m)">Eliminar</button>
+      </span>
+    </div>
+    <p class="empty-state" *ngIf="medications.length === 0">No hay medicamentos que coincidan con la búsqueda.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ draft.id ? 'Editar medicamento' : 'Crear medicamento' }}</h2>
+
+    <div class="tm-field">
+      <label>Nombre</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.nombre" name="nombre" placeholder="Ej. Acetaminofén 500mg" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Principio activo</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.principioActivo" name="principioActivo" />
+      </div>
+      <div class="tm-field">
+        <label>Categoría</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.categoria" name="categoria" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Presentación</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.presentacion" name="presentacion" placeholder="Ej. Caja x 20 tabletas" />
+    </div>
+
+    <div class="tm-field">
+      <label>Descripción</label>
+      <textarea class="tm-textarea" [(ngModel)]="draft.descripcion" name="descripcion" rows="3"></textarea>
+    </div>
+
+    <label class="tm-checkbox-row">
+      <input type="checkbox" [(ngModel)]="draft.requiereReceta" name="requiereReceta" />
+      <span>Este medicamento requiere fórmula médica.</span>
+    </label>
+
+    <p class="tm-error" *ngIf="error" style="margin-top: 12px;">{{ error }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="close()">Cancelar</button>
+      <button type="button" class="tm-btn tm-btn--primary" (click)="save()">{{ draft.id ? 'Guardar cambios' : 'Crear medicamento' }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

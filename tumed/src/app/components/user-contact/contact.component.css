@@ -1,0 +1,7 @@
+
+.page.narrow { max-width: 620px; }
+.confirm { color: var(--tm-green-600); font-weight: 600; }
+.contact-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+.contact-info h3 { font-size: 0.85rem; margin-bottom: 4px; }
+.contact-info p { margin: 0; font-size: 0.87rem; }
+@media (max-width: 640px) { .contact-info { grid-template-columns: 1fr; } }

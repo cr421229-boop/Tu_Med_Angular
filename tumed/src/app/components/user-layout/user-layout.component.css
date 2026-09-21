@@ -1,0 +1,4 @@
+.shell { display: flex; min-height: 100vh; background: var(--tm-bg); }
+.content { flex: 1; min-width: 0; }
+@media (max-width: 860px) { .shell { flex-direction: column; } }
+

@@ -1,0 +1,5 @@
+
+.page.narrow { max-width: 560px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.confirm { color: var(--tm-green-600); font-weight: 600; font-size: 0.87rem; margin-bottom: 14px; }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr; } }

@@ -1,0 +1,4 @@
+
+.offers-grid { grid-template-columns: repeat(3, 1fr); }
+.card-actions { display: flex; gap: 8px; margin-top: 12px; }
+@media (max-width: 900px) { .offers-grid { grid-template-columns: 1fr; } }

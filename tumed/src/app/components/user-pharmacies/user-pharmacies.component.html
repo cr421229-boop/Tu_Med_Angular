@@ -1,0 +1,30 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Red de aliados</p>
+      <h1>Farmacias</h1>
+      <p>Consulta información, horarios y contacto de las farmacias disponibles en TU MED.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input class="tm-input" type="text" placeholder="Buscar por nombre o ciudad" [(ngModel)]="query" name="query" />
+  </div>
+
+  <div class="card-grid">
+    <article class="entity-card" *ngFor="let p of pharmacies">
+      <div class="thumb">{{ p.nombre.charAt(0) }}</div>
+      <div class="body">
+        <h3>{{ p.nombre }}</h3>
+        <p class="meta">{{ p.ciudad }} · {{ medicationCount(p.id) }} medicamentos disponibles</p>
+        <p class="meta">{{ p.direccion }}</p>
+        <div class="foot">
+          <span class="meta">{{ p.horario }}</span>
+          <a [routerLink]="['/app/farmacia', p.id]" class="tm-btn tm-btn--ghost tm-btn--sm">Ver farmacia</a>
+        </div>
+      </div>
+    </article>
+
+    <p class="empty-state" *ngIf="pharmacies.length === 0">No encontramos farmacias que coincidan con tu búsqueda.</p>
+  </div>
+</div>

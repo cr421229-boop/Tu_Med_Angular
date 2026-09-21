@@ -1,0 +1,44 @@
+<div class="page" *ngIf="med; else noEncontrado">
+  <a routerLink="/app/buscar" class="back">← Volver a la búsqueda</a>
+
+  <div class="head">
+    <div class="thumb">{{ med.nombre.charAt(0) }}</div>
+    <div>
+      <p class="eyebrow">{{ med.categoria }}</p>
+      <h1>{{ med.nombre }}</h1>
+      <p class="meta">{{ med.principioActivo }} · {{ med.presentacion }} · {{ med.requiereReceta ? 'Requiere fórmula médica' : 'Venta libre' }}</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="guardar()">Guardar en mis medicamentos</button>
+  </div>
+
+  <p class="desc">{{ med.descripcion }}</p>
+
+  <h2>Disponibilidad por farmacia</h2>
+  <div class="avail-list">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
+      <span>Farmacia</span><span>Precio</span><span>Estado</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 1fr 1fr 1fr;" *ngFor="let d of med.disponibilidad" [appResaltarDisponibilidad]="d.disponibilidad">
+      <span class="ph-name">{{ farmacia(d.farmaciaId)?.nombre }}</span>
+      <span>${{ d.precio | number }}</span>
+      <span class="tm-badge" [ngClass]="{
+        'tm-badge--available': d.disponibilidad === 'disponible',
+        'tm-badge--low': d.disponibilidad === 'bajo-stock',
+        'tm-badge--out': d.disponibilidad === 'agotado'
+      }">
+        {{ d.disponibilidad === 'disponible' ? 'Disponible' : d.disponibilidad === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+      </span>
+      <a [routerLink]="['/app/farmacia', d.farmaciaId]" class="tm-btn tm-btn--ghost tm-btn--sm">Ver farmacia</a>
+    </div>
+    <p class="empty-state" *ngIf="med.disponibilidad.length === 0">Ninguna farmacia ha reportado disponibilidad todavía.</p>
+  </div>
+</div>
+
+<ng-template #noEncontrado>
+  <div class="page">
+    <p>No encontramos este medicamento.</p>
+    <a routerLink="/app/buscar" class="tm-btn tm-btn--ghost">Volver a la búsqueda</a>
+  </div>
+</ng-template>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

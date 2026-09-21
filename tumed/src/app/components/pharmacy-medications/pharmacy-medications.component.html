@@ -1,0 +1,95 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Panel farmacia</p>
+      <h1>Mis medicamentos</h1>
+      <p>Agrega medicamentos a tu inventario y mantén actualizado su precio y disponibilidad.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" (click)="openAdd()">Agregar medicamento</button>
+  </div>
+
+  <div class="list-panel">
+    <div class="tm-list-head" style="grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;">
+      <span>Medicamento</span><span>Precio</span><span>Stock</span><span>Estado</span><span></span>
+    </div>
+    <div class="tm-list-row" style="grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;" *ngFor="let row of misMedicamentos">
+      <span>{{ row.med.nombre }}</span>
+      <span>${{ row.disp!.precio | number }}</span>
+      <span>{{ row.disp!.stock }}</span>
+      <span class="tm-badge" [ngClass]="{
+        'tm-badge--available': row.disp!.disponibilidad === 'disponible',
+        'tm-badge--low': row.disp!.disponibilidad === 'bajo-stock',
+        'tm-badge--out': row.disp!.disponibilidad === 'agotado'
+      }">
+        {{ row.disp!.disponibilidad === 'disponible' ? 'Disponible' : row.disp!.disponibilidad === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+      </span>
+      <span class="row-actions">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="openEdit(row.med)">Actualizar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(row.med)">Eliminar</button>
+      </span>
+    </div>
+    <p class="empty-state" *ngIf="misMedicamentos.length === 0">Aún no has agregado medicamentos a tu inventario.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ editingMedId ? 'Actualizar disponibilidad' : 'Agregar medicamento' }}</h2>
+
+    <ng-container *ngIf="!editingMedId">
+      <div class="tm-field">
+        <label>Medicamento</label>
+        <select class="tm-select" [(ngModel)]="seleccion" name="seleccion">
+          <option *ngFor="let m of disponiblesParaAgregar" [value]="m.id">{{ m.nombre }}</option>
+          <option [value]="NEW_OPTION">Otro (crear nuevo medicamento)</option>
+        </select>
+      </div>
+
+      <ng-container *ngIf="seleccion === NEW_OPTION">
+        <div class="tm-field">
+          <label>Nombre</label>
+          <input class="tm-input" type="text" [(ngModel)]="nuevoNombre" name="nuevoNombre" />
+        </div>
+        <div class="row">
+          <div class="tm-field">
+            <label>Principio activo</label>
+            <input class="tm-input" type="text" [(ngModel)]="nuevoPrincipio" name="nuevoPrincipio" />
+          </div>
+          <div class="tm-field">
+            <label>Categoría</label>
+            <input class="tm-input" type="text" [(ngModel)]="nuevaCategoria" name="nuevaCategoria" />
+          </div>
+        </div>
+        <div class="tm-field">
+          <label>Presentación</label>
+          <input class="tm-input" type="text" [(ngModel)]="nuevaPresentacion" name="nuevaPresentacion" />
+        </div>
+        <label class="tm-checkbox-row">
+          <input type="checkbox" [(ngModel)]="nuevaReceta" name="nuevaReceta" />
+          <span>Requiere fórmula médica.</span>
+        </label>
+      </ng-container>
+    </ng-container>
+
+    <div class="row" style="margin-top: 14px;">
+      <div class="tm-field">
+        <label>Precio</label>
+        <input class="tm-input" type="number" min="0" [(ngModel)]="precio" name="precio" />
+      </div>
+      <div class="tm-field">
+        <label>Cantidad en stock</label>
+        <input class="tm-input" type="number" min="0" [(ngModel)]="stock" name="stock" />
+        <p class="tm-hint">Se marcará como agotado en 0, pocas unidades en 8 o menos.</p>
+      </div>
+    </div>
+
+    <p class="tm-error" *ngIf="error">{{ error }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="close()">Cancelar</button>
+      <button type="button" class="tm-btn tm-btn--primary" (click)="save()">{{ editingMedId ? 'Guardar cambios' : 'Agregar' }}</button>
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

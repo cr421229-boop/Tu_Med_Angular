@@ -1,0 +1,42 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Seguimiento</p>
+      <h1>Mis medicamentos</h1>
+      <p>Guarda los medicamentos que usas con frecuencia y ajusta la cantidad que sueles comprar.</p>
+    </div>
+    <a routerLink="/app/buscar" class="tm-btn tm-btn--primary">Buscar medicamentos</a>
+  </div>
+
+  <div class="list">
+    <div class="tm-list-head cols">
+      <span>Medicamento</span><span>Cantidad</span><span>Notas</span><span></span>
+    </div>
+
+    <div class="tm-list-row cols" *ngFor="let row of items">
+      <span class="ph-name">{{ row.med?.nombre }}</span>
+
+      <span *ngIf="editingId !== row.item.id">{{ row.item.cantidad }}</span>
+      <span *ngIf="editingId === row.item.id" class="qty-edit">
+        <input class="tm-input" type="number" min="1" [(ngModel)]="editQty" name="qty-{{row.item.id}}" />
+      </span>
+
+      <span class="notes">{{ row.item.notas || '—' }}</span>
+
+      <span class="actions" *ngIf="editingId !== row.item.id">
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="startEdit(row.item.id, row.item.cantidad)">Editar</button>
+        <button type="button" class="tm-btn tm-btn--danger tm-btn--sm" (click)="eliminar(row.item.id)">Eliminar</button>
+      </span>
+      <span class="actions" *ngIf="editingId === row.item.id">
+        <button type="button" class="tm-btn tm-btn--primary tm-btn--sm" (click)="saveEdit(row.item.id)">Guardar</button>
+        <button type="button" class="tm-btn tm-btn--ghost tm-btn--sm" (click)="cancelEdit()">Cancelar</button>
+      </span>
+    </div>
+
+    <div class="empty-state" *ngIf="items.length === 0">
+      Aún no has guardado medicamentos. <a routerLink="/app/buscar">Busca uno</a> y agrégalo aquí.
+    </div>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

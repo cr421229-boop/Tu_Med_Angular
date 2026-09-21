@@ -1,0 +1,59 @@
+<div class="auth-shell">
+  <aside class="side">
+    <a routerLink="/" class="brand">
+      <span class="mark"></span>
+      <span class="name">TU MED</span>
+    </a>
+    <h1>Bienvenido de nuevo</h1>
+    <p>Inicia sesión para consultar tus medicamentos, tu farmacia o administrar la plataforma.</p>
+  </aside>
+
+  <main class="panel">
+    <div class="panel-inner">
+      <h2>Iniciar sesión</h2>
+      <p class="sub">Ingresa tus credenciales para continuar.</p>
+
+      <form (ngSubmit)="submit()" novalidate>
+        <div class="tm-field">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" class="tm-input" type="email" name="correo" [(ngModel)]="correo" placeholder="tu@correo.com" />
+        </div>
+
+        <div class="tm-field">
+          <label for="password">Contraseña</label>
+          <div class="tm-password-wrap">
+            <input
+              id="password"
+              class="tm-input"
+              [type]="verPassword ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              placeholder="••••••••"
+            />
+            <button type="button" class="tm-password-toggle" (click)="verPassword = !verPassword">
+              {{ verPassword ? 'Ocultar' : 'Ver' }}
+            </button>
+          </div>
+        </div>
+
+        <p class="error" *ngIf="error">{{ error }}</p>
+
+        <button type="submit" class="tm-btn tm-btn--primary tm-btn--block" [disabled]="cargando">
+          {{ cargando ? 'Ingresando…' : 'Iniciar sesión' }}
+        </button>
+
+        <div class="links">
+          <a routerLink="/recuperar-contrasena">¿Olvidaste tu contraseña?</a>
+          <a routerLink="/registrarse">Crear cuenta</a>
+        </div>
+      </form>
+
+      <div class="demo">
+        <p class="demo-title">Cuentas de prueba</p>
+        <button type="button" class="demo-chip" *ngFor="let d of demoAccounts" (click)="usarDemo(d.correo, d.password)">
+          {{ d.label }}
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

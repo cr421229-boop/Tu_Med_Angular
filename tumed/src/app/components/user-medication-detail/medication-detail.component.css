@@ -1,0 +1,19 @@
+
+.back { font-size: 0.85rem; display: inline-block; margin-bottom: 20px; }
+.head { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+.head h1 { margin-bottom: 4px; }
+.head .meta { margin: 0; font-size: 0.85rem; }
+.head > div:nth-child(2) { flex: 1; }
+.thumb {
+  width: 64px; height: 64px; border-radius: var(--tm-radius-md); flex-shrink: 0;
+  background: var(--tm-green-tint); color: var(--tm-green-600);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--tm-serif); font-weight: 600; font-size: 1.6rem;
+}
+.desc { max-width: 70ch; margin-bottom: 30px; }
+.ph-name { font-weight: 600; color: var(--tm-teal); }
+
+@media (max-width: 640px) {
+  .head { flex-wrap: wrap; }
+  .avail-list .tm-list-head, .avail-list .tm-list-row { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+}

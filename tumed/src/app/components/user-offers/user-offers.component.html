@@ -1,0 +1,29 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Promociones</p>
+      <h1>Ofertas</h1>
+      <p>Descuentos vigentes en medicamentos disponibles en nuestras farmacias aliadas.</p>
+    </div>
+  </div>
+
+  <div class="offers-grid">
+    <div class="offer-card" *ngFor="let o of offers">
+      <span class="tm-badge tm-badge--available">-{{ o.descuento }}%</span>
+      <h3>{{ medicamento(o.medicamentoId)?.nombre }}</h3>
+      <p>{{ farmacia(o.farmaciaId)?.nombre }} · Vigente hasta {{ o.vigenciaHasta }}</p>
+      <div class="prices">
+        <span class="old">${{ o.precioOriginal | number }}</span>
+        <span class="new">${{ o.precioOferta | number }}</span>
+      </div>
+      <div class="card-actions">
+        <a [routerLink]="['/app/medicamento', o.medicamentoId]" class="tm-btn tm-btn--ghost tm-btn--sm">Ver medicamento</a>
+        <button type="button" class="tm-btn tm-btn--primary tm-btn--sm" (click)="guardar(o.medicamentoId)">Guardar</button>
+      </div>
+    </div>
+
+    <p class="empty-state" *ngIf="offers.length === 0">No hay ofertas activas por el momento.</p>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

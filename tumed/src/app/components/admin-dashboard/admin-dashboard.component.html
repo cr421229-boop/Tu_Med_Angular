@@ -1,0 +1,48 @@
+<div class="page">
+  <p class="eyebrow">Panel de administración</p>
+  <h1>Resumen general</h1>
+  <p>Estado actual de la plataforma TU MED.</p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="num">{{ totalUsuarios }}</span>
+      <span class="label">Usuarios registrados</span>
+      <a routerLink="/admin/usuarios">Gestionar usuarios</a>
+    </div>
+    <div class="stat-card">
+      <span class="num">{{ totalFarmacias }}</span>
+      <span class="label">Farmacias aliadas</span>
+      <a routerLink="/admin/farmacias">Gestionar farmacias</a>
+    </div>
+    <div class="stat-card">
+      <span class="num">{{ totalMedicamentos }}</span>
+      <span class="label">Medicamentos en catálogo</span>
+      <a routerLink="/admin/medicamentos">Gestionar medicamentos</a>
+    </div>
+    <div class="stat-card">
+      <span class="num">{{ totalOfertas }}</span>
+      <span class="label">Ofertas activas</span>
+      <a routerLink="/admin/ofertas">Gestionar ofertas</a>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="tm-panel">
+      <h3>Medicamentos agotados</h3>
+      <ul class="simple-list" *ngIf="agotados.length > 0; else sinAgotados">
+        <li *ngFor="let m of agotados">{{ m.nombre }} <span class="tm-badge tm-badge--out">Agotado</span></li>
+      </ul>
+      <ng-template #sinAgotados><p>No hay medicamentos agotados actualmente.</p></ng-template>
+    </div>
+
+    <div class="tm-panel">
+      <h3>Últimos usuarios registrados</h3>
+      <ul class="simple-list">
+        <li *ngFor="let u of ultimosUsuarios">
+          {{ u.nombre }} {{ u.apellido }}
+          <span class="role-tag">{{ u.role }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<header class="topbar">
+  <div class="tm-container bar">
+    <div class="brand">
+      <span class="mark"></span>
+      <span class="name">TU MED</span>
+    </div>
+    <div class="actions">
+      <a routerLink="/iniciar-sesion" class="tm-btn tm-btn--ghost">Iniciar sesión</a>
+      <a routerLink="/registrarse" class="tm-btn tm-btn--primary">Registrarse</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="tm-container hero-grid">
+    <div class="hero-copy">
+      <p class="eslogan">Medicina simple y cercana</p>
+      <h1>Encuentra el medicamento que necesitas, en la farmacia más cercana.</h1>
+      <p class="lead">
+        TU MED conecta a las personas con farmacias de su ciudad: consulta disponibilidad en tiempo real,
+        compara precios y encuentra dónde comprar sin salir de casa.
+      </p>
+
+      <form class="search-box" (ngSubmit)="buscar()">
+        <input
+          class="tm-input"
+          type="text"
+          placeholder="Busca un medicamento, por ejemplo: Ibuprofeno"
+          [(ngModel)]="query"
+          name="query"
+        />
+        <button type="submit" class="tm-btn tm-btn--dark">Buscar</button>
+      </form>
+
+    </div>
+    <div class="hero-panel" aria-hidden="true">
+      <div class="pill pill-1">Acetaminofén 500mg <span class="tag ok">Disponible</span></div>
+      <div class="pill pill-2">Losartán 50mg <span class="tag low">Pocas unidades</span></div>
+      <div class="pill pill-3">Amoxicilina 500mg <span class="tag off">Agotado cerca</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="info tm-container">
+  <h2>Todo lo que necesitas, en un solo lugar</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="num">01</span>
+      <h3>Busca y consulta</h3>
+      <p>Encuentra medicamentos por nombre o principio activo y revisa su ficha, presentación y precio.</p>
+    </div>
+    <div class="info-card">
+      <span class="num">02</span>
+      <h3>Compara disponibilidad</h3>
+      <p>Consulta en qué farmacias hay stock y compara precios entre distintos puntos de venta.</p>
+    </div>
+    <div class="info-card">
+      <span class="num">03</span>
+      <h3>Guarda y da seguimiento</h3>
+      <p>Guarda tus medicamentos habituales en "Mis medicamentos" para reordenar con un clic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="access tm-container">
+  <h2>Accesos principales</h2>
+  <div class="access-grid">
+    <a routerLink="/buscar-publico" class="access-card">
+      <h3>Buscar medicamentos</h3>
+      <p>Explora el catálogo y consulta disponibilidad sin necesidad de iniciar sesión.</p>
+    </a>
+    <a routerLink="/registrarse" class="access-card">
+      <h3>Crear una cuenta</h3>
+      <p>Regístrate como persona usuaria o registra tu farmacia en la plataforma.</p>
+    </a>
+    <a routerLink="/iniciar-sesion" class="access-card">
+      <h3>Iniciar sesión</h3>
+      <p>Accede a tu cuenta de usuario, farmacia o administrador.</p>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="tm-container foot-grid">
+    <div>
+      <div class="brand">
+        <span class="mark"></span>
+        <span class="name">TU MED</span>
+      </div>
+      <p>Medicina simple y cercana.</p>
+    </div>
+    <div>
+      <h4>Plataforma</h4>
+      <a routerLink="/buscar-publico">Buscar medicamentos</a>
+      <a routerLink="/registrarse">Registrar farmacia</a>
+    </div>
+    <div>
+      <h4>Cuenta</h4>
+      <a routerLink="/iniciar-sesion">Iniciar sesión</a>
+      <a routerLink="/registrarse">Crear cuenta</a>
+    </div>
+  </div>
+</footer>

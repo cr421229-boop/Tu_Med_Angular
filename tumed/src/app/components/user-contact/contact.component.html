@@ -1,0 +1,27 @@
+<div class="page narrow">
+  <p class="eyebrow">Estamos para ayudarte</p>
+  <h1>Contacto</h1>
+  <p>Escríbenos si tienes dudas sobre un medicamento, una farmacia o tu cuenta en TU MED.</p>
+
+  <div class="tm-panel">
+    <p class="confirm" *ngIf="enviado">Tu mensaje fue enviado. Te responderemos a {{ auth.currentUser()?.correo }} pronto.</p>
+
+    <form (ngSubmit)="enviar()" *ngIf="!enviado" novalidate>
+      <div class="tm-field">
+        <label for="asunto">Asunto</label>
+        <input id="asunto" class="tm-input" type="text" name="asunto" [(ngModel)]="asunto" placeholder="¿Sobre qué quieres escribirnos?" />
+      </div>
+      <div class="tm-field">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" class="tm-textarea" name="mensaje" [(ngModel)]="mensaje" rows="6" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+      </div>
+      <button type="submit" class="tm-btn tm-btn--primary">Enviar mensaje</button>
+    </form>
+  </div>
+
+  <div class="contact-info">
+    <div><h3>Correo</h3><p>soporte&#64;tumed.com</p></div>
+    <div><h3>Teléfono</h3><p>01 8000 123 456</p></div>
+    <div><h3>Horario de atención</h3><p>Lun a Vie, 8:00 a.m. – 6:00 p.m.</p></div>
+  </div>
+</div>

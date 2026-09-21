@@ -1,0 +1,16 @@
+<aside class="nav">
+  <div class="brand">
+    <span class="mark"></span>
+    <span class="name">TU MED</span>
+  </div>
+  <nav>
+    <a routerLink="/app/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+    <a routerLink="/app/buscar" routerLinkActive="active">Buscar medicamentos</a>
+    <a routerLink="/app/farmacias" routerLinkActive="active">Farmacias</a>
+    <a routerLink="/app/ofertas" routerLinkActive="active">Ofertas</a>
+    <a routerLink="/app/mis-medicamentos" routerLinkActive="active">Mis medicamentos</a>
+    <a routerLink="/app/contacto" routerLinkActive="active">Contacto</a>
+    <a routerLink="/app/perfil" routerLinkActive="active">Mi perfil</a>
+  </nav>
+  <button class="logout" (click)="auth.logout()">Cerrar sesión</button>
+</aside>

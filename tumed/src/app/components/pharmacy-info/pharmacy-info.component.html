@@ -1,0 +1,85 @@
+<div class="page" *ngIf="pharmacy">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Panel farmacia</p>
+      <h1>Mi farmacia</h1>
+      <p>Consulta y edita la información pública de tu farmacia.</p>
+    </div>
+    <button type="button" class="tm-btn tm-btn--primary" *ngIf="!editing" (click)="startEdit()">Editar información</button>
+  </div>
+
+  <div class="tm-panel" *ngIf="!editing">
+    <h3>{{ pharmacy.nombre }}</h3>
+    <p class="tag" [ngClass]="pharmacy.activa ? 'ok' : 'off'">{{ pharmacy.activa ? 'Activa en la plataforma' : 'Inactiva' }}</p>
+
+    <div class="info-grid">
+      <div>
+        <h4>Dirección y contacto</h4>
+        <p>{{ pharmacy.direccion }}, {{ pharmacy.ciudad }}</p>
+        <p>{{ pharmacy.telefono }} · {{ pharmacy.correo }}</p>
+      </div>
+      <div>
+        <h4>NIT</h4>
+        <p>{{ pharmacy.nit }}</p>
+      </div>
+      <div>
+        <h4>Horario</h4>
+        <p>{{ pharmacy.horario }}</p>
+      </div>
+    </div>
+
+    <h4>Descripción</h4>
+    <p>{{ pharmacy.descripcion }}</p>
+  </div>
+
+  <form class="tm-panel" *ngIf="editing" (ngSubmit)="save()">
+    <div class="tm-field">
+      <label>Nombre de la farmacia</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.nombre" name="nombre" />
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Teléfono</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.telefono" name="telefono" />
+      </div>
+      <div class="tm-field">
+        <label>Correo electrónico</label>
+        <input class="tm-input" type="email" [(ngModel)]="draft.correo" name="correo" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="tm-field">
+        <label>Dirección</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.direccion" name="direccion" />
+      </div>
+      <div class="tm-field">
+        <label>Ciudad</label>
+        <input class="tm-input" type="text" [(ngModel)]="draft.ciudad" name="ciudad" />
+      </div>
+    </div>
+
+    <div class="tm-field">
+      <label>Horario</label>
+      <input class="tm-input" type="text" [(ngModel)]="draft.horario" name="horario" />
+    </div>
+
+    <div class="tm-field">
+      <label>Descripción</label>
+      <textarea class="tm-textarea" [(ngModel)]="draft.descripcion" name="descripcion" rows="4"></textarea>
+    </div>
+
+    <label class="tm-checkbox-row">
+      <input type="checkbox" [(ngModel)]="draft.activa" name="activa" />
+      <span>Mostrar mi farmacia como activa en TU MED.</span>
+    </label>
+
+    <div class="modal-actions">
+      <button type="button" class="tm-btn tm-btn--ghost" (click)="cancel()">Cancelar</button>
+      <button type="submit" class="tm-btn tm-btn--primary">Guardar cambios</button>
+    </div>
+  </form>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

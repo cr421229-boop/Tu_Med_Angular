@@ -1,0 +1,46 @@
+<div class="page">
+  <header class="greeting">
+    <p class="eyebrow">Hola, {{ auth.currentUser()?.nombre }}</p>
+    <h1>¿Qué medicamento necesitas hoy?</h1>
+    <div class="quick-actions">
+      <a routerLink="/app/buscar" class="tm-btn tm-btn--primary">Buscar medicamentos</a>
+      <a routerLink="/app/farmacias" class="tm-btn tm-btn--ghost">Ver farmacias cercanas</a>
+    </div>
+  </header>
+
+  <section class="grid">
+    <div class="tm-panel">
+      <h3>Mis medicamentos</h3>
+      <p>Tienes {{ savedCount }} medicamento(s) guardados para seguimiento rápido.</p>
+      <a routerLink="/app/mis-medicamentos" class="tm-btn tm-btn--ghost tm-btn--sm">Gestionar</a>
+    </div>
+    <div class="tm-panel">
+      <h3>Farmacias aliadas</h3>
+      <p>Consulta información, horarios y contacto de las farmacias disponibles en TU MED.</p>
+      <a routerLink="/app/farmacias" class="tm-btn tm-btn--ghost tm-btn--sm">Ver farmacias</a>
+    </div>
+    <div class="tm-panel">
+      <h3>¿Necesitas ayuda?</h3>
+      <p>Escríbenos desde la sección de contacto y te responderemos lo antes posible.</p>
+      <a routerLink="/app/contacto" class="tm-btn tm-btn--ghost tm-btn--sm">Ir a contacto</a>
+    </div>
+  </section>
+
+  <section class="offers">
+    <div class="offers-head">
+      <h2>Ofertas destacadas</h2>
+      <a routerLink="/app/ofertas">Ver todas</a>
+    </div>
+    <div class="offers-grid">
+      <div class="offer-card" *ngFor="let o of offers">
+        <span class="tm-badge tm-badge--available">-{{ o.descuento }}%</span>
+        <h3>{{ medNombre(o.medicamentoId) }}</h3>
+        <p>{{ farmaciaNombre(o.farmaciaId) }}</p>
+        <div class="prices">
+          <span class="old">${{ o.precioOriginal | number }}</span>
+          <span class="new">${{ o.precioOferta | number }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

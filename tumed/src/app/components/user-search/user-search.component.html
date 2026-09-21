@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Catálogo</p>
+      <h1>Buscar medicamentos</h1>
+      <p>Consulta información, precio de referencia y disponibilidad por farmacia.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input class="tm-input" type="text" placeholder="Nombre o principio activo" [(ngModel)]="query" name="query" />
+    <select class="tm-select" [(ngModel)]="categoria" name="categoria">
+      <option *ngFor="let c of categorias" [value]="c">{{ c === 'todas' ? 'Todas las categorías' : c }}</option>
+    </select>
+  </div>
+
+  <div class="card-grid">
+    <article class="entity-card" *ngFor="let m of results" [appResaltarDisponibilidad]="estado(m)">
+      <div class="thumb">{{ m.nombre.charAt(0) }}</div>
+      <div class="body">
+        <div class="foot" style="margin-bottom: 6px;">
+          <h3>{{ m.nombre }}</h3>
+          <span class="tm-badge" [ngClass]="{
+            'tm-badge--available': estado(m) === 'disponible',
+            'tm-badge--low': estado(m) === 'bajo-stock',
+            'tm-badge--out': estado(m) === 'agotado'
+          }">
+            {{ estado(m) === 'disponible' ? 'Disponible' : estado(m) === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+          </span>
+        </div>
+        <p class="meta">{{ m.principioActivo }} · {{ m.presentacion }} · {{ m.requiereReceta ? 'Requiere receta' : 'Venta libre' }}</p>
+        <div class="foot">
+          <span class="price" *ngIf="precioDesde(m) as p">Desde ${{ p | number }}</span>
+          <span class="price" *ngIf="!precioDesde(m)">Sin unidades disponibles</span>
+          <div style="display:flex; gap:8px;">
+            <a [routerLink]="['/app/medicamento', m.id]" class="tm-btn tm-btn--ghost tm-btn--sm">Ver disponibilidad</a>
+            <button type="button" class="tm-btn tm-btn--primary tm-btn--sm" (click)="guardar(m)">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <p class="empty-state" *ngIf="results.length === 0">No encontramos medicamentos con esos criterios.</p>
+  </div>
+</div>
+
+<div class="tm-toast" *ngIf="toast">{{ toast }}</div>

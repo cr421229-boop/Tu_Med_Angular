@@ -1,0 +1,11 @@
+
+.cols { grid-template-columns: 2fr 1fr 1.4fr 1.6fr; }
+.ph-name { font-weight: 600; color: var(--tm-teal); }
+.notes { font-size: 0.85rem; color: var(--tm-ink-soft); }
+.actions { display: flex; gap: 8px; }
+.qty-edit .tm-input { max-width: 90px; padding: 6px 8px; }
+
+@media (max-width: 700px) {
+  .cols { grid-template-columns: 1fr 1fr; row-gap: 8px; }
+  .actions { grid-column: span 2; }
+}

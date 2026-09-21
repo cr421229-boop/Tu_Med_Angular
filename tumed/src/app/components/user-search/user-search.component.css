@@ -1,0 +1,3 @@
+
+.card-grid { grid-template-columns: 1fr; }
+.price { font-weight: 700; color: var(--tm-teal); font-size: 0.9rem; }

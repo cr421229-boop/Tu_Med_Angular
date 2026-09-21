@@ -1,0 +1,52 @@
+<header class="topbar">
+  <div class="tm-container bar">
+    <a routerLink="/" class="brand">
+      <span class="mark"></span>
+      <span class="name">TU MED</span>
+    </a>
+    <div class="actions">
+      <a routerLink="/iniciar-sesion" class="tm-btn tm-btn--ghost">Iniciar sesión</a>
+      <a routerLink="/registrarse" class="tm-btn tm-btn--primary">Registrarse</a>
+    </div>
+  </div>
+</header>
+
+<section class="tm-container page">
+  <h1>Buscar medicamentos</h1>
+  <p class="lead">Consulta disponibilidad y precio de referencia en nuestras farmacias aliadas.</p>
+
+  <input
+    class="tm-input search"
+    type="text"
+    placeholder="Busca por nombre, principio activo o categoría"
+    [(ngModel)]="query"
+    name="query"
+  />
+
+  <div class="results">
+    <article class="result-card" *ngFor="let m of results">
+      <div class="thumb" [attr.data-tag]="m.categoria.charAt(0)"></div>
+      <div class="body">
+        <div class="head">
+          <h3>{{ m.nombre }}</h3>
+          <span class="tm-badge" [ngClass]="{
+            'tm-badge--available': estado(m) === 'disponible',
+            'tm-badge--low': estado(m) === 'bajo-stock',
+            'tm-badge--out': estado(m) === 'agotado'
+          }">
+            {{ estado(m) === 'disponible' ? 'Disponible' : estado(m) === 'bajo-stock' ? 'Pocas unidades' : 'Agotado' }}
+          </span>
+        </div>
+        <p class="meta">{{ m.principioActivo }} · {{ m.presentacion }} · {{ m.categoria }}</p>
+        <p class="desc">{{ m.descripcion }}</p>
+        <div class="foot">
+          <span class="price" *ngIf="precioDesde(m) as p">Desde ${{ p | number }}</span>
+          <span class="price" *ngIf="!precioDesde(m)">Sin unidades disponibles</span>
+          <a routerLink="/iniciar-sesion" class="tm-btn tm-btn--ghost tm-btn--sm">Inicia sesión para más detalles</a>
+        </div>
+      </div>
+    </article>
+
+    <p class="empty" *ngIf="results.length === 0">No encontramos medicamentos que coincidan con tu búsqueda.</p>
+  </div>
+</section>
